@@ -21,5 +21,5 @@ from first import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/test/', views.test, name='test'),
-    url(r'^api/', include('first.urls')),
+    url(r'^', include('first.urls')),
 ]
