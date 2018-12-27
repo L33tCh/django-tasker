@@ -26,7 +26,7 @@ SECRET_KEY = '#u^3um%-r#2&wgfg$(k4$1g+m4k57g5hdy)uti#*p-gjo-xp(j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lirantest1.herokuapp.com','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['lirantest1.herokuapp.com','127.0.0.1','localhost','l3tasker.herokuapp.com']
 
 
 # Application definition
