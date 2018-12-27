@@ -15,4 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tasker.settings')
 
 application = get_wsgi_application()
 
-application = WhiteNoise(application, root='tasker/static')
+application = WhiteNoise(application, root='/static')
