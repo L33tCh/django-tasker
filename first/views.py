@@ -15,4 +15,4 @@ class LinksPageView(TemplateView):
 
 
 def test(request):
-    return HttpResponse('Test success!')
+    return HttpResponse('{"text":"Test success!"}')
