@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 PROJECT_ROOT = BASE_DIR
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -132,7 +132,7 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = [STATIC_URL,os.path.join(PROJECT_ROOT, 'app/static')]
+STATICFILES_DIRS = [STATIC_URL,os.path.join(PROJECT_ROOT, 'app/static', 'static', STATIC_ROOT)]
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
