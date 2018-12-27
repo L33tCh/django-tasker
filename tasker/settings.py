@@ -145,4 +145,4 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # for /static/root/favicon.ico
-WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'root')
+WHITENOISE_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles', 'root')
