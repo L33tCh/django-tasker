@@ -17,9 +17,11 @@ from django.urls import include, path
 from django.contrib import admin
 from django.conf.urls import url
 from first import views
+from static import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/test/', views.test, name='test'),
     url(r'^', include('first.urls')),
+    url(r'^app/static/*', include('static')),
 ]
