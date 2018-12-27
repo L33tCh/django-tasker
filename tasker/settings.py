@@ -124,6 +124,7 @@ USE_TZ = True
 
 # Update database configuration with $DATABASE_URL.
 import dj_database_url
+from whitenoise import WhiteNoise
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
@@ -147,3 +148,5 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # for /static/root/favicon.ico
 WHITENOISE_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles', 'root')
+
+WSGI_APPLICATION = WhiteNoise(WSGI_APPLICATION, root=STATIC_ROOT)
