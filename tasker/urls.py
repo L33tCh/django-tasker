@@ -22,5 +22,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/test/', views.test, name='test'),
     url(r'^', include('first.urls')),
-    url(r'^app/static/*', include('static')),
 ]
