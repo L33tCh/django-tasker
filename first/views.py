@@ -48,7 +48,8 @@ def links(request):
     context = {
         'latest_question_list': latest_question_list,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'links.html', context)
+    # return HttpResponse(template.render(context, request))
 
 
 def test(request):
