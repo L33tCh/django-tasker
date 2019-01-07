@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.template import loader
 from .models import Question
 from .serialisers import QuestionSerialiser
@@ -43,11 +43,15 @@ def questions(request):
 
 
 def links(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    template = loader.get_template('links.html')
-    context = {
-        'latest_question_list': latest_question_list,
-    }
+    try:
+        latest_question_list = Question.objects.order_by('-pub_date')[:5]
+        template = loader.get_template('links.html')
+        context = {
+            'latest_question_list': latest_question_list,
+        }
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+
     return render(request, 'links.html', context)
     # return HttpResponse(template.render(context, request))
 
@@ -57,4 +61,8 @@ def test(request):
 
 
 def jtest(request, question_id):
-    return JsonResponse({'text': "Test success!", 'Question': str(Question.objects.get(pk=question_id))})
+    try:
+        q = str(Question.objects.get(pk=question_id))
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return JsonResponse({'text': "Test success!", 'Question': q})
