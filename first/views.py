@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, reverse
-from django.views.generic import TemplateView
+from django.views import generic
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from .models import Question, Choice
@@ -7,14 +7,33 @@ from .serialisers import QuestionSerialiser
 
 
 # Create your views here.
-class HomePageView(TemplateView):
+class HomePageView(generic.TemplateView):
     def get(self, request, **kwargs):
         return render(request, 'index.html', context=None)
 
 
-class LinksPageView(TemplateView):
-    def get(self, request, **kwargs):
-        return render(request, 'links.html', context=None)
+# class LinksPageView(generic.TemplateView):
+#     def get(self, request, **kwargs):
+#         return render(request, 'links.html', context=None)
+
+
+class IndexView(generic.ListView):
+    template_name = 'links.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'detail.html'
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'results.html'
 
 
 # class QuestionSerialiser(serializers.Serializer):
@@ -42,18 +61,18 @@ def questions(request):
     # return context
 
 
-def links(request):
-    try:
-        latest_question_list = Question.objects.order_by('-pub_date')[:5]
-        template = loader.get_template('links.html')
-        context = {
-            'latest_question_list': latest_question_list,
-        }
-    except Question.DoesNotExist:
-        raise Http404("Question does not exist")
-
-    return render(request, 'links.html', context)
-    # return HttpResponse(template.render(context, request))
+# def links(request):
+#     try:
+#         latest_question_list = Question.objects.order_by('-pub_date')[:5]
+#         template = loader.get_template('links.html')
+#         context = {
+#             'latest_question_list': latest_question_list,
+#         }
+#     except Question.DoesNotExist:
+#         raise Http404("Question does not exist")
+#
+#     return render(request, 'links.html', context)
+#     # return HttpResponse(template.render(context, request))
 
 
 def test(request):
@@ -68,17 +87,23 @@ def jtest(request, question_id):
     return JsonResponse({'text': "Test success!", 'Question': q})
 
 
-def detail(request, question_id):
+# def detail(request, question_id):
+#     question = get_object_or_404(Question, pk=question_id)
+#     return render(request, 'detail.html', {'question': question})
+#
+#
+# def results(request, question_id):
+#     question = get_object_or_404(Question, pk=question_id)
+#     return render(request, 'results.html', {'question': question})
+
+
+def api_vote(request, question_id):
+    vote(request, question_id, True)
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'detail.html', {'question': question})
+    return JsonResponse({'results': question.choice_set.all()})
 
 
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'results.html', {'question': question})
-
-
-def vote(request, question_id):
+def vote(request, question_id, api=False):
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
@@ -94,4 +119,7 @@ def vote(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('first:results', args=(question.id,)))
+        if api:
+            return JsonResponse({'result': 'success'})
+        else:
+            return HttpResponseRedirect(reverse('first:results', args=(question.id,)))
