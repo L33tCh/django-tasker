@@ -31,7 +31,7 @@ SECRET_KEY = '=xil9ec*p8^6q23qr!rfjb3d*$(n4zxo1_e=*pb0xey^x^@*$w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'l3tasker.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'testserver', 'l3tasker.herokuapp.com']
 
 
 # Application definition

@@ -10,6 +10,7 @@ urlpatterns = [
     path('first/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('first/<int:question_id>/vote/', views.vote, name='vote'),
 
+    path('api/', views.test),
     path('api/questions/', views.questions),
     path('api/questions/<int:question_id>/', views.jtest),
     path('api/questions/<int:question_id>/vote/', views.api_vote),
