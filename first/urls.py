@@ -12,9 +12,9 @@ urlpatterns = [
 
     path('api/', views.test),
     path('api/questions/', views.questions),
-    path('api/questions/<int:question_id>/', views.jtest),
+    path('api/questions/<int:question_id>/', views.api_detail),
     path('api/questions/<int:question_id>/vote/', views.api_vote),
-    # url(r'^$', views.HomePageView.as_view()),
+    url(r'^$', views.HomePageView.as_view()),
     url(r'^(?P<path>.*)/$', views.HomePageView.as_view()),
 ]
 

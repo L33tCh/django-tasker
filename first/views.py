@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirec
 from django.template import loader
 from django.utils import timezone
 from .models import Question, Choice
-from .serialisers import QuestionSerialiser
+from .serialisers import QuestionSerialiser, ChoiceSerialiser
 
 
 # Create your views here.
@@ -113,12 +113,32 @@ def jtest(request, question_id):
 
 
 def api_vote(request, question_id):
-    vote(request, question_id, True)
     question = get_object_or_404(Question, pk=question_id)
-    return JsonResponse({'results': question.choice_set.all()})
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return JsonResponse({
+            'question': question_id,
+            'error_message': "You didn't select a (valid) choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        # return render(request, {'result': 'success'})
+        choices = ChoiceSerialiser(question.choice_set.all(), many=True)
+        return JsonResponse({'data': choices.data})
 
 
-def vote(request, question_id, api=False):
+def api_detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return JsonResponse(QuestionSerialiser(Question.objects.get(pk=question_id)).data, safe=False)
+
+
+def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
@@ -134,7 +154,4 @@ def vote(request, question_id, api=False):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        if api:
-            return JsonResponse({'result': 'success'})
-        else:
-            return HttpResponseRedirect(reverse('first:results', args=(question.id,)))
+        return HttpResponseRedirect(reverse('first:results', args=(question.id,)))
