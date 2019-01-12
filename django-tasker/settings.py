@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'first',
     'rest_framework',
     'api',
 ]
@@ -153,5 +152,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # WSGI_APPLICATION = WhiteNoise(WSGI_APPLICATION, root=STATIC_ROOT)
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES':  'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    'DEFAULT_PERMISSION_CLASSES':  [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ]
 }
