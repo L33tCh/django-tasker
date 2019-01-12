@@ -20,4 +20,7 @@ urlpatterns = [
          views.CourseDetailView.as_view(),
          name='course_detail'),
 
+    path('courses/<pk>/enroll/',
+         views.CourseEnrollView.as_view(),
+         name='course_enroll'),
 ]
