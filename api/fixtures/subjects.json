@@ -1,0 +1,18 @@
+[
+  {
+    "model": "api.subject",
+    "pk": 1,
+    "fields": {
+      "title": "Science",
+      "slug": "science"
+    }
+  },
+  {
+    "model": "api.subject",
+    "pk": 2,
+    "fields": {
+      "title": "Math",
+      "slug": "math"
+    }
+  }
+]
