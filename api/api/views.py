@@ -10,12 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 
 
-class SubjectListView(generics.ListAPIView):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerialiser
-
-
-class SubjectDetailView(generics.RetrieveAPIView):
+class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerialiser
 
