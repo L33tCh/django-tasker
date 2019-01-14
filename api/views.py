@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from io import BytesIO
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 import speedtest
@@ -61,10 +62,12 @@ def test(request):
         'summary': stest.results.share(),
     })
 
+import json
+
 
 def tests(request):
     stest = speedtest.Speedtest()
-    stest.get_best_server(servers=[{"url": "http://speedtest-cpt.voxtelecom.co.za/upload.php", "lat": "-33.9253", "lon": "18.4239", "name": "Cape Town", "country": "South Africa", "cc": "ZA", "sponsor": "Vox Telecom", "id": "7318", "url2": "http://speedtest-cpt1.voxtelecom.co.za/upload.php", "host": "speedtest-cpt.voxtelecom.co.za:8080", "d": 0.08521976909151716, "latency": 7.061}])
+    stest.get_best_server(servers=[json.loads(request.POST['server'])])
     stest.upload()
     stest.download()
     return JsonResponse(stest.results.dict())

@@ -30,6 +30,6 @@ urlpatterns = [
     url(r'^speed/download', api_views.download),
     url(r'^speed/closest', api_views.closest),
     url(r'^speed/config', api_views.config),
-    url(r'^speed/tests', api_views.tests),
-    url(r'^speed/test', api_views.test),
+    path('speed/tests/', api_views.tests),
+    url(r'^speed/test/', api_views.test),
 ]
