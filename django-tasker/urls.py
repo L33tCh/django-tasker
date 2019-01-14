@@ -17,10 +17,19 @@ from django.urls import include, path
 from django.contrib import admin
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
+from api import views as api_views
 
 urlpatterns = [
     path('api/', include('api.api.urls', namespace='api')),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
+    url(r'^speed/servers', api_views.servers),
+    url(r'^speed/best', api_views.best),
+    url(r'^speed/upload', api_views.upload),
+    url(r'^speed/download', api_views.download),
+    url(r'^speed/closest', api_views.closest),
+    url(r'^speed/config', api_views.config),
+    url(r'^speed/tests', api_views.tests),
+    url(r'^speed/test', api_views.test),
 ]

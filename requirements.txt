@@ -12,6 +12,7 @@ mccabe==0.6.1
 psycopg2-binary==2.7.6.1
 pylint-django==2.0.5
 pylint-plugin-utils==0.4
+speedtest-cli==2.0.2
 pytz==2018.7
 six==1.12.0
 whitenoise==3.3.0
